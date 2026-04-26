@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brandPrimary">#2E7D32</color> <!-- Verde oscuro -->
+    <color name="brandSecondary">#FDD835</color> <!-- Amarillo suave -->
+    <color name="background">#F5F5F5</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="onSurface">#1F1F1F</color>
+    <color name="onSurfaceVariant">#606060</color>
+    <color name="danger">#D32F2F</color>
+</resources>

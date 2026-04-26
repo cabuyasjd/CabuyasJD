@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">CabuyasJD</string>
+    <string name="inventory_title">Inventario Cabuyas JD</string>
+    <string name="inventory_management">Gestión de Inventario</string>
+    <string name="enter">Entrar</string>
+    <string name="register">Registro</string>
+    <string name="id_card">Cédula de Identidad</string>
+    <string name="enter_system">Entrar al Sistema</string>
+    <string name="control_panel">Panel de Control</string>
+    <string name="add_product_label">Agregar\nProducto</string>
+    <string name="remove_product_label">Retirar\nProducto</string>
+    <string name="list_inventory_label">Listar\nInventario</string>
+    <string name="search_stock_label">Buscar\nStock</string>
+    <string name="delete_product_label">Eliminar\nProducto</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="enter_quantity_hint">Ingresa el número de unidades</string>
+    <string name="success_title">Operación Exitosa</string>
+    <string name="accept">Aceptar</string>
+    <string name="advanced_search">Búsqueda Avanzada</string>
+    <string name="search_help_text">Encuentra productos por nombre o stock bajo</string>
+    <string name="search_by_name">Buscar por nombre</string>
+    <string name="low_stock_threshold">Umbral de stock bajo</string>
+    <string name="perform_search">Realizar Búsqueda</string>
+    <string name="full_inventory">Inventario Completo</string>
+    <string name="inventory_overview">Vista general de todos tus productos</string>
+    <string name="return_to_menu">Regresar al Menú</string>
+    <string name="delete_product_title">Eliminar Producto</string>
+    <string name="delete_warning">¡Advertencia! Esta acción no se puede deshacer</string>
+</resources>

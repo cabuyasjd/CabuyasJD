@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Inventario Cabuyas JD</string>
+    <string name="welcome_title">Inventario Cabuyas JD</string>
+    <string name="welcome_subtitle">Gestión local de inventario — rápido, sencillo y sin servidor</string>
+    <string name="button_create_account">Crear cuenta</string>
+    <string name="button_login">Iniciar sesión</string>
+    <string name="button_register">Registrar</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_manual">Manual de usuario</string>
+    <string name="button_search_cedula">Buscar (cédula)</string>
+    <string name="button_add_product">➕ Agregar producto</string>
+    <string name="button_remove_product">➖ Retirar producto</string>
+    <string name="button_list_inventory">📋 Listar inventario</string>
+    <string name="button_search_low_stock">🔎 Buscar / Bajo stock</string>
+    <string name="button_delete_product">🗑️ Eliminar producto</string>
+    <string name="button_logout">Salir</string>
+    <string name="label_names">Nombres</string>
+    <string name="label_surnames">Apellidos</string>
+    <string name="label_cedula">Cédula (sin puntos)</string>
+    <string name="label_birthdate">Fecha de nacimiento</string>
+    <string name="hint_cedula">Ej: 12345678</string>
+    <string name="hint_birthdate">DD/MM/AAAA</string>
+    <string name="info_help">Ayuda: la cédula debe ser solo números. Fecha formato DD/MM/AAAA.</string>
+    <string name="menu_subtitle">Selecciona una opción</string>
+    <string name="help_how_it_works">¿Cómo funciona?</string>
+</resources>

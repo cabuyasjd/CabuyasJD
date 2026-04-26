@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="Theme.CabuyasJD" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brandPrimary</item>
+        <item name="colorPrimaryVariant">@color/brandPrimary</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="colorSecondary">@color/brandSecondary</item>
+        <item name="colorOnSecondary">@color/onPrimary</item>
+        <item name="android:statusBarColor">@color/brandPrimary</item>
+        <item name="android:navigationBarColor">@color/brandPrimary</item>
+        <item name="android:textColor">@color/onSurface</item>
+        <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
+    </style>
+
+</resources>

@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+set -e
+DIRNAME="$(cd "$(dirname "$0")" && pwd)"
+GRADLE_WRAPPER_JAR="$DIRNAME/gradle/wrapper/gradle-wrapper.jar"
+
+if [ ! -f "$GRADLE_WRAPPER_JAR" ]; then
+  echo "Gradle wrapper jar not found. Run 'gradle wrapper' or download gradle-wrapper.jar."
+  exit 1
+fi
+
+exec java -jar "$GRADLE_WRAPPER_JAR" "$@"

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Estado Seleccionado: Fondo azul fuerte y borde marino grueso -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#BBDEFB" /> <!-- Azul cielo claro pero sólido -->
+            <corners android:radius="20dp" />
+            <stroke android:width="5dp" android:color="#0D47A1" /> <!-- Borde azul marino grueso -->
+        </shape>
+    </item>
+
+    <!-- Estado Normal: Sin fondo (transparente) y borde gris -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <corners android:radius="20dp" />
+            <stroke android:width="1dp" android:color="#E0E0E0" />
+        </shape>
+    </item>
+</selector>

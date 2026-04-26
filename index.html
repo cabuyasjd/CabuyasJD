@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de inventario local para gestión de productos Cabuyas JD">
+    <meta name="theme-color" content="#2d7dff">
+    <title>Inventario Cabuyas JD</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Pantalla Principal / Landing -->
+    <div id="homeScreen" class="screen active" role="main" aria-labelledby="hero-title">
+        <div class="hero">
+            <div class="hero-card card-like" role="banner">
+                <img src="logo.png" alt="Logo de Cabuyas JD - Sistema de inventario" class="hero-logo" loading="lazy">
+                <h1 id="hero-title">Inventario Cabuyas JD</h1>
+                <p class="hero-sub">Gestión local de inventario — rápido, sencillo y sin servidor</p>
+                <div class="hero-features" role="list" aria-label="Características principales">
+                    <span role="listitem">Registro fácil</span>
+                    <span role="listitem">Inventario en tiempo real</span>
+                    <span role="listitem">Sin instalación adicional</span>
+                </div>
+                <div class="hero-buttons">
+                    <button type="button" class="btn btn-primary btn-large" onclick="openAuth('register')" aria-describedby="register-desc">
+                        <span class="btn-icon">👤</span>
+                        <span>Crear cuenta</span>
+                    </button>
+                    <button type="button" class="btn btn-light btn-large" onclick="openAuth('login')" aria-describedby="login-desc">
+                        <span class="btn-icon">🔓</span>
+                        <span>Iniciar sesión</span>
+                    </button>
+                </div>
+                <div class="sr-only" id="register-desc">Regístrate como nuevo usuario del sistema</div>
+                <div class="sr-only" id="login-desc">Accede con tu cuenta existente</div>
+                <p class="hero-note">También puedes comenzar con datos de ejemplo usando las acciones de inventario dentro de la app.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Login -->
+    <div id="loginScreen" class="screen" role="main" aria-labelledby="login-title">
+        <div class="login-container">
+            <div class="header-login">
+                <h1 id="headerLoginTitle">Bienvenido - Inventario Cabuyas JD</h1>
+            </div>
+
+            <div class="mode-toggle card-like" role="tablist" aria-label="Modo de autenticación">
+                <button id="modeRegister" class="mode-btn active" type="button" onclick="switchAuthMode('register')" role="tab" aria-selected="true" aria-controls="register-panel">Registro</button>
+                <button id="modeLogin" class="mode-btn" type="button" onclick="switchAuthMode('login')" role="tab" aria-selected="false" aria-controls="login-panel">Iniciar sesión</button>
+            </div>
+
+            <p id="infoText" class="info-text" role="status" aria-live="polite">Por favor completa el formulario de registro o usa la opción "Iniciar sesión" si ya te registraste.</p>
+
+            <form id="loginForm" class="form-login" novalidate role="form" aria-labelledby="form-title">
+                <div id="register-panel" role="tabpanel" aria-labelledby="modeRegister">
+                    <div class="form-group registro-only">
+                        <label for="nombres">Nombres:</label>
+                        <input type="text" id="nombres" placeholder="Ej: Juan" required aria-describedby="nombres-help" autocomplete="given-name">
+                        <div class="sr-only" id="nombres-help">Ingresa tus nombres completos</div>
+                    </div>
+
+                    <div class="form-group registro-only">
+                        <label for="apellidos">Apellidos:</label>
+                        <input type="text" id="apellidos" placeholder="Ej: Pérez García" required aria-describedby="apellidos-help" autocomplete="family-name">
+                        <div class="sr-only" id="apellidos-help">Ingresa tus apellidos completos</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cedula">Cédula (sin puntos):</label>
+                        <input type="text" id="cedula" placeholder="Ej: 12345678" required aria-describedby="cedula-help" autocomplete="username" inputmode="numeric" pattern="[0-9]*">
+                        <div class="sr-only" id="cedula-help">Ingresa tu número de cédula sin puntos ni espacios</div>
+                    </div>
+
+                    <div class="form-group registro-only">
+                        <label for="fnac">Fecha de nacimiento:</label>
+                        <input type="date" id="fnac" required aria-describedby="fnac-help" autocomplete="bday">
+                        <div class="sr-only" id="fnac-help">Selecciona tu fecha de nacimiento</div>
+                    </div>
+                </div>
+
+                <div id="login-panel" role="tabpanel" aria-labelledby="modeLogin" class="hidden">
+                    <div class="form-group">
+                        <label for="cedula-login">Cédula (sin puntos):</label>
+                        <input type="text" id="cedula-login" placeholder="Ej: 12345678" required aria-describedby="cedula-login-help" autocomplete="username" inputmode="numeric" pattern="[0-9]*">
+                        <div class="sr-only" id="cedula-login-help">Ingresa tu número de cédula para iniciar sesión</div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="logo-container">
+                <img id="logo-login" src="logo.png" alt="Logo Cabuyas JD" class="logo" loading="lazy">
+            </div>
+
+            <p class="help-text">Ayuda: la cédula debe ser solo números. Fecha formato DD/MM/AAAA.</p>
+
+            <p style="text-align:center; margin-top:8px; font-size:14px;">
+                <a href="#" id="alreadyRegisteredLink" onclick="switchAuthMode('login'); return false;" aria-describedby="switch-help">¿Ya estás registrado? Inicia sesión</a>
+            </p>
+            <div class="sr-only" id="switch-help">Cambia al modo de inicio de sesión</div>
+
+            <div class="button-group-login">
+                <button type="button" class="btn btn-secondary" onclick="mostrarManualIngreso()" aria-describedby="manual-help">
+                    <span class="btn-icon">📖</span>
+                    <span>Manual de usuario</span>
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="buscarPorCedula()" aria-describedby="search-help">
+                    <span class="btn-icon">🔍</span>
+                    <span>Buscar (cédula)</span>
+                </button>
+                <button type="button" class="btn btn-danger" onclick="cancelarLogin()" aria-describedby="cancel-help">
+                    <span class="btn-icon">❌</span>
+                    <span>Cancelar</span>
+                </button>
+                <button type="button" id="primaryActionBtn" class="btn btn-primary" onclick="validarYProceder()" aria-describedby="action-help">
+                    <span class="btn-icon">✅</span>
+                    <span id="primaryActionText">Registrar</span>
+                </button>
+            </div>
+            <div class="sr-only" id="manual-help">Muestra el manual de ingreso al sistema</div>
+            <div class="sr-only" id="search-help">Busca un usuario existente por número de cédula</div>
+            <div class="sr-only" id="cancel-help">Cancela la operación actual</div>
+            <div class="sr-only" id="action-help">Confirma la acción seleccionada (registro o inicio de sesión)</div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Menú Principal -->
+    <div id="menuScreen" class="screen" role="main" aria-labelledby="menu-title">
+        <div class="menu-container">
+            <div class="header-menu">
+                <h1 id="headerNombre">Inventario Cabuyas JD - Usuario: </h1>
+            </div>
+
+            <p class="menu-title" id="menu-title">Selecciona una opción</p>
+
+            <div class="button-grid" role="navigation" aria-label="Opciones del menú principal">
+                <button type="button" class="btn btn-accent btn-large" onclick="abrirAgregarProducto()" aria-describedby="add-desc">
+                    <span class="btn-icon" aria-hidden="true">➕</span>
+                    <span>Agregar producto</span>
+                </button>
+                <button type="button" class="btn btn-success btn-large" onclick="abrirRetirarProducto()" aria-describedby="remove-desc">
+                    <span class="btn-icon" aria-hidden="true">➖</span>
+                    <span>Retirar producto</span>
+                </button>
+                <button type="button" class="btn btn-primary btn-large" onclick="abrirListarInventario()" aria-describedby="list-desc">
+                    <span class="btn-icon" aria-hidden="true">📋</span>
+                    <span>Listar inventario</span>
+                </button>
+                <button type="button" class="btn btn-danger btn-large" onclick="abrirBuscarOBajoStock()" aria-describedby="search-desc">
+                    <span class="btn-icon" aria-hidden="true">🔎</span>
+                    <span>Buscar / Bajo stock</span>
+                </button>
+                <button type="button" class="btn btn-danger btn-large" onclick="abrirEliminarProducto()" aria-describedby="delete-desc">
+                    <span class="btn-icon" aria-hidden="true">🗑️</span>
+                    <span>Eliminar producto</span>
+                </button>
+            </div>
+
+            <div class="sr-only">
+                <div id="add-desc">Agrega nuevos productos al inventario o aumenta la cantidad de productos existentes</div>
+                <div id="remove-desc">Reduce la cantidad de productos en el inventario</div>
+                <div id="list-desc">Muestra una lista completa de todos los productos y sus cantidades</div>
+                <div id="search-desc">Busca productos por nombre o muestra productos con bajo stock</div>
+                <div id="delete-desc">Elimina completamente un producto del inventario</div>
+            </div>
+
+            <div class="logo-container">
+                <img id="logo-menu" src="logo.png" alt="Logo Cabuyas JD" class="logo" loading="lazy">
+            </div>
+
+            <div class="button-group-footer">
+                <button type="button" class="btn btn-light" onclick="mostrarManualUsuario()" aria-describedby="help-desc">
+                    <span class="btn-icon">❓</span>
+                    <span>¿Cómo funciona?</span>
+                </button>
+                <button type="button" class="btn btn-accent" onclick="salirSesion()" aria-describedby="logout-desc">
+                    <span class="btn-icon">🚪</span>
+                    <span>Salir</span>
+                </button>
+            </div>
+            <div class="sr-only">
+                <div id="help-desc">Muestra el manual de usuario con instrucciones detalladas</div>
+                <div id="logout-desc">Cierra la sesión actual y regresa a la pantalla de inicio</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Errores -->
+    <div id="errorModal" class="modal" role="dialog" aria-labelledby="error-title" aria-modal="true">
+        <div class="modal-content error-modal">
+            <div class="modal-header error-header">
+                <h2 id="error-title">Errores de validación</h2>
+                <button type="button" class="close-btn" onclick="cerrarModal('errorModal')" aria-label="Cerrar ventana de errores">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Se encontraron los siguientes errores:</p>
+                <ul id="errorList" role="list" aria-label="Lista de errores"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="cerrarModal('errorModal')" aria-describedby="close-error-desc">Cerrar</button>
+            </div>
+            <div class="sr-only" id="close-error-desc">Cierra la ventana de errores</div>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar Producto -->
+    <div id="agregarModal" class="modal" role="dialog" aria-labelledby="add-product-title" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="add-product-title">Agregar producto</h2>
+                <button type="button" class="close-btn" onclick="cerrarModal('agregarModal')" aria-label="Cerrar ventana de agregar producto">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Inventario actual</h3>
+                <div class="table-responsive">
+                    <table id="tableInventarioAgregar" role="table" aria-label="Inventario actual para agregar productos">
+                        <thead>
+                            <tr>
+                                <th class="header-accent" scope="col">Producto</th>
+                                <th class="header-success" scope="col">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <p class="form-label">Selecciona producto con flechas o escribe uno nuevo:</p>
+                <select id="selectProductoAgregar" class="select-input" size="6" aria-label="Seleccionar producto existente" aria-describedby="select-help">
+                </select>
+                <div class="sr-only" id="select-help">Usa las flechas del teclado para navegar por los productos existentes</div>
+
+                <input type="text" id="inputProductoAgregar" class="form-input" placeholder="O escribe el nombre del producto..." aria-label="Nombre del nuevo producto" aria-describedby="input-help">
+                <div class="sr-only" id="input-help">Escribe el nombre de un producto nuevo si no está en la lista</div>
+
+                <button type="button" class="btn btn-light" onclick="mostrarAyudaAgregar()" aria-describedby="help-add-desc">
+                    <span class="btn-icon">💡</span>
+                    <span>Ayuda</span>
+                </button>
+                <div class="sr-only" id="help-add-desc">Muestra ayuda para agregar productos</div>
+                <p id="mensajeAgregar" class="mensaje" role="status" aria-live="polite"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-accent" onclick="confirmarAgregarProducto()" aria-describedby="confirm-add-desc">
+                    <span class="btn-icon">➕</span>
+                    <span>Agregar</span>
+                </button>
+                <div class="sr-only" id="confirm-add-desc">Confirma la selección del producto para agregar cantidad</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Retirar Producto -->
+    <div id="retirarModal" class="modal" role="dialog" aria-labelledby="remove-product-title" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="remove-product-title">Retirar producto</h2>
+                <button type="button" class="close-btn" onclick="cerrarModal('retirarModal')" aria-label="Cerrar ventana de retirar producto">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Inventario actual</h3>
+                <div class="table-responsive">
+                    <table id="tableInventarioRetirar" role="table" aria-label="Inventario actual para retirar productos">
+                        <thead>
+                            <tr>
+                                <th class="header-accent" scope="col">Producto</th>
+                                <th class="header-success" scope="col">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <p class="form-label">Selecciona el producto a retirar con flechas:</p>
+                <select id="selectProductoRetirar" class="select-input" size="6" aria-label="Seleccionar producto a retirar" aria-describedby="select-remove-help">
+                </select>
+                <div class="sr-only" id="select-remove-help">Usa las flechas del teclado para seleccionar el producto que deseas retirar</div>
+
+                <input type="text" id="inputProductoRetirar" class="form-input" placeholder="(Opcional) Escribe nombre para autocompletar" aria-label="Buscar producto por nombre" aria-describedby="input-remove-help">
+                <div class="sr-only" id="input-remove-help">Escribe parte del nombre para filtrar la lista de productos</div>
+
+                <button type="button" class="btn btn-light" onclick="mostrarAyudaRetirar()" aria-describedby="help-remove-desc">
+                    <span class="btn-icon">💡</span>
+                    <span>Ayuda</span>
+                </button>
+                <div class="sr-only" id="help-remove-desc">Muestra ayuda para retirar productos</div>
+                <p id="mensajeRetirar" class="mensaje" role="status" aria-live="polite"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="confirmarRetirarProducto()" aria-describedby="confirm-remove-desc">
+                    <span class="btn-icon">➖</span>
+                    <span>Retirar</span>
+                </button>
+                <div class="sr-only" id="confirm-remove-desc">Confirma la selección del producto para retirar cantidad</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Eliminar Producto (Eliminar completamente del inventario) -->
+    <div id="eliminarModal" class="modal" role="dialog" aria-labelledby="delete-product-title" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="delete-product-title">Eliminar producto</h2>
+                <button type="button" class="close-btn" onclick="cerrarModal('eliminarModal')" aria-label="Cerrar ventana de eliminar producto">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="form-label">Selecciona el producto a eliminar (acción irreversible)</p>
+                <select id="selectProductoEliminar" class="select-input" size="6" aria-label="Seleccionar producto a eliminar" aria-describedby="delete-warning">
+                </select>
+                <div id="delete-warning" class="warning-message" role="alert">
+                    <span class="warning-icon" aria-hidden="true">⚠️</span>
+                    Esta acción eliminará el producto del inventario completamente.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModal('eliminarModal')" aria-describedby="cancel-delete-desc">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="confirmarEliminarProducto()" aria-describedby="confirm-delete-desc">
+                    <span class="btn-icon">🗑️</span>
+                    <span>Eliminar</span>
+                </button>
+            </div>
+            <div class="sr-only">
+                <div id="cancel-delete-desc">Cancela la eliminación del producto</div>
+                <div id="confirm-delete-desc">Confirma la eliminación permanente del producto seleccionado</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Listar Inventario -->
+    <div id="listarModal" class="modal" role="dialog" aria-labelledby="inventory-title" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="inventory-title">Inventario actual</h2>
+                <button type="button" class="close-btn" onclick="cerrarModal('listarModal')" aria-label="Cerrar ventana de inventario">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="tableListarInventario" role="table" aria-label="Lista completa del inventario">
+                        <thead>
+                            <tr>
+                                <th class="header-accent" scope="col">Producto</th>
+                                <th class="header-success" scope="col">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="cerrarModal('listarModal')" aria-describedby="close-inventory-desc">Cerrar</button>
+            </div>
+            <div class="sr-only" id="close-inventory-desc">Cierra la ventana del inventario</div>
+        </div>
+    </div>
+
+    <!-- Modal para Buscar / Bajo Stock -->
+    <div id="buscarModal" class="modal" role="dialog" aria-labelledby="search-title" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="search-title">Buscar productos / Bajo stock</h2>
+                <button type="button" class="close-btn" onclick="cerrarModal('buscarModal')" aria-label="Cerrar ventana de búsqueda">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="search-section">
+                    <p class="form-label">Buscar productos por nombre</p>
+                    <input type="text" id="inputBusqueda" class="form-input" placeholder="Escribe parte del nombre..." aria-label="Buscar producto por nombre" aria-describedby="search-name-help">
+                    <div class="sr-only" id="search-name-help">Escribe parte del nombre del producto para buscar coincidencias</div>
+                </div>
+
+                <div class="threshold-section">
+                    <p class="form-label">O usa el umbral para ver productos con baja cantidad</p>
+                    <input type="number" id="inputUmbral" class="form-input" placeholder="Ej: 5" min="1" aria-label="Umbral de bajo stock" aria-describedby="threshold-help">
+                    <div class="sr-only" id="threshold-help">Ingresa un número para mostrar productos con cantidad igual o menor a este valor</div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="tableResultadoBusqueda" role="table" aria-label="Resultados de búsqueda">
+                        <thead>
+                            <tr>
+                                <th class="header-accent" scope="col">Producto</th>
+                                <th class="header-danger" scope="col">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <button type="button" class="btn btn-light" onclick="mostrarAyudaBuscar()" aria-describedby="help-search-desc">
+                    <span class="btn-icon">💡</span>
+                    <span>Ayuda</span>
+                </button>
+                <div class="sr-only" id="help-search-desc">Muestra ayuda para la búsqueda de productos</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="ejecutarBusqueda()" aria-describedby="execute-search-desc">
+                    <span class="btn-icon">🔍</span>
+                    <span>Buscar / Mostrar</span>
+                </button>
+                <div class="sr-only" id="execute-search-desc">Ejecuta la búsqueda según los criterios especificados</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Genérico para Información -->
+    <div id="infoModal" class="modal" role="dialog" aria-labelledby="infoModalTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="infoModalTitle">Información</h2>
+                <button type="button" class="close-btn" onclick="cerrarModal('infoModal')" aria-label="Cerrar ventana de información">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="infoModalText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="cerrarModal('infoModal')" aria-describedby="close-info-desc">Cerrar</button>
+            </div>
+            <div class="sr-only" id="close-info-desc">Cierra la ventana de información</div>
+        </div>
+    </div>
+
+    <!-- Modal para Cantidad -->
+    <div id="cantidadModal" class="modal" role="dialog" aria-labelledby="cantidadModalTitle" aria-modal="true">
+        <div class="modal-content cantidad-modal">
+            <div class="modal-header">
+                <h2 id="cantidadModalTitle">Ingresa la cantidad</h2>
+                <button type="button" class="close-btn" onclick="cerrarModal('cantidadModal')" aria-label="Cerrar ventana de cantidad">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="inputCantidad" class="sr-only">Cantidad a procesar</label>
+                <input type="number" id="inputCantidad" class="form-input" min="1" placeholder="0" autofocus aria-describedby="quantity-help">
+                <div class="sr-only" id="quantity-help">Ingresa la cantidad numérica para la operación</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModal('cantidadModal')" aria-describedby="cancel-quantity-desc">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnConfirmarCantidad" onclick="confirmarCantidad()" aria-describedby="confirm-quantity-desc">Confirmar</button>
+            </div>
+            <div class="sr-only">
+                <div id="cancel-quantity-desc">Cancela la entrada de cantidad</div>
+                <div id="confirm-quantity-desc">Confirma la cantidad ingresada</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

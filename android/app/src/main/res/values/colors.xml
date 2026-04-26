@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Modern Palette -->
+    <color name="brandPrimary">#0D47A1</color> <!-- Deep Blue -->
+    <color name="brandSecondary">#1976D2</color>
+    <color name="brandAccent">#00B0FF</color>
+
+    <color name="background">#F0F4F8</color>
+    <color name="surface">#FFFFFF</color>
+
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="onSurface">#1A237E</color>
+    <color name="onSurfaceVariant">#546E7A</color>
+
+    <!-- Menu Button Colors - More Vibrant -->
+    <color name="btnYellow">#FFC107</color>
+    <color name="btnGreen">#43A047</color>
+    <color name="btnBlue">#1E88E5</color>
+    <color name="btnRed">#E53935</color>
+    <color name="btnPurple">#8E24AA</color>
+
+    <color name="danger">#D32F2F</color>
+    <color name="black">#212121</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Transparent helpers -->
+    <color name="shadowColor">#1A000000</color>
+</resources>
